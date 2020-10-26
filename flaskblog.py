@@ -2,6 +2,7 @@ from flask import Flask, render_template, url_for, flash, redirect ,jsonify
 import pandas as pd
 from flask import request
 from recomender import recommend
+import pickle
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = '5791628bb0b13ce0c676dfde280ba245'
@@ -9,9 +10,12 @@ app.config['SECRET_KEY'] = '5791628bb0b13ce0c676dfde280ba245'
 
 def get_suggestions():
     data = pd.read_csv('new_data.csv')
+    with open('sim_arr.pkl', 'rb') as f:
+        similarity_mat = pickle.load(f)
     context={
         "movie_title":list(data['title']),
-        "movie_data":data
+        "movie_data":data,
+        'similarity_mat':similarity_mat
 
     }
     return context
@@ -29,7 +33,7 @@ def auto():
     else:
         try:
             Books = request.values.get('myCountry')
-            similar=recommend(str(Books),suggestions['movie_data'])
+            similar=recommend(suggestions['movie_data'],suggestions['similarity_mat'],str(Books))
         except Exception as e:
             similar=None
         if similar != None:

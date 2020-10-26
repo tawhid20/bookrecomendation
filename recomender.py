@@ -15,18 +15,18 @@ import random
 from PIL import Image
 import requests
 from io import BytesIO
+import pickle
 
 
-def recommend(title,data):
-    # Matching the genre with the dataset and reset the index
 
-    # Convert the index into series
+
+
+
+
+def recommend(data,similarity_mat,title):
     indices = pd.Series(data.index, index = data['title'])
-    tf = TfidfVectorizer(analyzer='word', ngram_range=(2, 2), min_df = 1, stop_words='english')
-    tfidf_matrix = tf.fit_transform(data['cleaned_desc'])
-    sg = cosine_similarity(tfidf_matrix, tfidf_matrix)
     idx = indices[title]
-    sig = list(enumerate(sg[idx]))
+    sig = list(enumerate(similarity_mat[idx]))
     sig = sorted(sig, key=lambda x: x[1], reverse=True)
     sig = sig[1:6]
     movie_indices = [i[0] for i in sig]
@@ -35,7 +35,6 @@ def recommend(title,data):
     author=data[['author']].iloc[movie_indices]
     rating=data[['rating']].iloc[movie_indices]
     genre=data[['genre']].iloc[movie_indices]
-
 
     context={
         "title": list(rec['title']),
@@ -47,4 +46,3 @@ def recommend(title,data):
     }
     return context
 
-# recommend(title,data)
