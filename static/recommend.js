@@ -1,5 +1,4 @@
 
-
 function autocomplete(inp, arr) {
   /*the autocomplete function takes two arguments,
   the text field element and an array of possible autocompleted values:*/
@@ -103,6 +102,7 @@ autocomplete(document.getElementById("myInput"), films);
 $(document).ready(function() {
 
 	$('form').on('submit', function(event) {
+
     setTimeout(() => { console.log("World!"); }, 2000);
 		$.ajax({
 			data : {
@@ -117,15 +117,15 @@ $(document).ready(function() {
         $('#results').hide();
 			}
 			else {
-        var title=data.name
-        var images=data.image
-        var author=data.author
-        var rating=data.rating
-        var genre=data.genre
+        const title=data.name
+        const images=data.image
+        const author=data.author
+        const rating=data.rating
+        const genre=data.genre
 
         $('#similar').hide();
         if($("results").is(":hidden")){
-          $('#results').toggle();;
+          $('#results').toggle();
       }
         $("#myInput").val('');
         $("#book_searched").html("<b>"+"Book Searched:</b>"+"<p>"+data.book+"<p>");
@@ -149,9 +149,11 @@ $(document).ready(function() {
         Bk_image.setAttribute("src", images[i]);
         Bk_image.setAttribute("width", "304");
         Bk_image.setAttribute("height", "228");
+        document.getElementById("num"+i).innerHTML = "";
+        document.getElementById("img"+i).innerHTML = "";
+
         document.getElementById("num"+i).appendChild(ul_node);
         document.getElementById("img"+i).appendChild(Bk_image);
-
       }        
 			}
 		});
