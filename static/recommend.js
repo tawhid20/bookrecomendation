@@ -123,10 +123,8 @@ $(document).ready(function() {
         const rating=data.rating
         const genre=data.genre
 
-        $('#similar').hide();
-        if($("results").is(":hidden")){
-          $('#results').toggle();
-      }
+        $('#similar').hide()
+        $('#results').show();
         $("#myInput").val('');
         $("#book_searched").html("<b>"+"Book Searched:</b>"+"<p>"+data.book+"<p>");
       console.log(data)
