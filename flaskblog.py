@@ -8,6 +8,7 @@ app = Flask(__name__)
 app.config['SECRET_KEY'] = '5791628bb0b13ce0c676dfde280ba245'
 
 
+#Loads the CSV that contains book data file and pickle file which contains the similarity matrix 
 def get_suggestions():
     data = pd.read_csv('new_data.csv')
     with open('sim_arr.pkl', 'rb') as f:
@@ -24,6 +25,10 @@ def get_suggestions():
 def about():
     return render_template('about.html', title='About')
 
+
+#loads the data 
+#if method is Get tenders the template with book titles
+#if the method is post find the closest books to that book 
 @app.route("/",methods=["GET","POST"])
 @app.route("/auto",methods=["GET","POST"])
 def auto():
